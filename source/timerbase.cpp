@@ -47,7 +47,7 @@ void TimerBase::setCallback(std::function<CallBackType> &&cb) {
 }
 
 void TimerBase::callOnce() {
-  if (m_Impl->m_Io.stopped()) {
+  if (!m_Impl->m_Io.stopped()) {
     m_Impl->m_Timer.async_wait(
         [&](const boost::system::error_code &ec) { m_Impl->m_Callback(ec); });
     m_Impl->m_Io.run();
