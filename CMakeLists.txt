@@ -7,9 +7,10 @@ include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(Boost_USE_STATIC_LIBS   ON)
 
-#find_package(Boost COMPONENTS thread REQUIRED)
+find_package(Boost)
+
+message(NOTICE "Boost libraries was found. Version:" ${Boost_VERSION})
 
 file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 file(GLOB CXX_FILES ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
