@@ -1,0 +1,3 @@
+[submodule "submodules/thread"]
+	path = submodules/thread
+	url = https://github.com/boostorg/thread.git

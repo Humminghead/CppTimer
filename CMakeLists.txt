@@ -9,15 +9,24 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(Boost_USE_STATIC_LIBS   ON)
 
-find_package(Boost COMPONENTS thread REQUIRED)
+#find_package(Boost COMPONENTS thread REQUIRED)
 
 file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 file(GLOB CXX_FILES ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
 
-add_library(${PROJECT_NAME} STATIC ${CXX_FILES})
+set(THREAD_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/thread/src/pthread/thread.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/thread/src/pthread/once.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/thread/src/future.cpp
+  )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE boost_thread.a -lpthread)
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+add_library(${PROJECT_NAME} STATIC ${CXX_FILES} ${THREAD_SOURCES})
+
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/thread/include
+)
 
 # Define install path
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_FULL_INCLUDEDIR}/${PROJECT_NAME} )
