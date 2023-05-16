@@ -7,13 +7,16 @@ include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(Boost_USE_STATIC_LIBS   ON)
+
+find_package(Boost COMPONENTS thread REQUIRED)
 
 file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 file(GLOB CXX_FILES ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${CXX_FILES})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE)
+target_link_libraries(${PROJECT_NAME} PRIVATE boost_thread.a -lpthread)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Define install path
