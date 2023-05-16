@@ -1,6 +1,6 @@
-#include <boost/system/error_code.hpp>
+#include <memory>
 #include <functional>
-#include <thread>
+#include <string_view>
 
 namespace CppTimer {
 class TimerBase {
@@ -8,7 +8,7 @@ class TimerBase {
   std::unique_ptr<Impl> m_Impl;
 
 public:
-  using CallBackType = void(const boost::system::error_code &ec);
+  using CallBackType = void(const std::string_view ec);
 
   TimerBase(const size_t seconds);
   ~TimerBase();
@@ -20,8 +20,5 @@ public:
   void setCallback(std::function<CallBackType> &&cb);
 
   void callOnce();
-
-private:
-  void keep(const boost::system::error_code &);
 };
 } // namespace CppTimer
