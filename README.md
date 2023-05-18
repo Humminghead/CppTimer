@@ -1,5 +1,5 @@
 # CppTimer
-The CppTimer library provides a high-level programming interface for timers.
+It is the simple static C++ timer library based on boost thread to make your life easier. The CppTimer provides a high-level programming interface for timers.
 
 ## How to build:
 Install [boost](www.boost.org) libraries. Pay attention to the version of installed libraries and version of `thread` library in submodule. They must be equal (if it's not, choose the correct version in the `thread` submodule).
