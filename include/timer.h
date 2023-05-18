@@ -77,7 +77,7 @@ public:
                                     typename std::decay<Args>::type...>::value,
                   "Arguments must be invocable after conversion to rvalues");
 
-    setCallback([&](const boost::system::error_code &e) { m_Handler.invoke(); });
+    setCallback([&](const std::string_view) { m_Handler.invoke(); });
   }
 };
 } // namespace CppTimer
