@@ -56,7 +56,7 @@ void TimerBase::callOnce() {
   if (!m_Impl->m_Io.stopped()) {
     m_Impl->m_Timer.async_wait(
         [&](const boost::system::error_code &ec) { m_Impl->m_Callback(ec.message()); });
-    m_Impl->m_Irunned.store(static_cast<bool>(m_Impl->m_Io.run()));
+    m_Impl->m_Io.run();
   }
 }
 
