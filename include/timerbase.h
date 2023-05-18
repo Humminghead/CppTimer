@@ -20,5 +20,7 @@ public:
   void setCallback(std::function<CallBackType> &&cb);
 
   void callOnce();
+
+  bool isStoped();
 };
 } // namespace CppTimer

@@ -11,6 +11,7 @@ struct TimerBase::Impl {
   boost::posix_time::seconds m_Interval{0}; // 1 second
   boost::asio::deadline_timer m_Timer;
   std::function<TimerBase::CallBackType> m_Callback;
+  std::atomic_bool m_Irunned{false};
 
   void keep(const boost::system::error_code &);
 };
@@ -31,6 +32,7 @@ void TimerBase::run() {
     return;
 
   if (!m_Impl->m_Io.stopped()) {
+    m_Impl->m_Irunned = true;
     m_Impl->m_Timer.async_wait(
         [&](const boost::system::error_code &e) { m_Impl->keep(e); });
     boost::thread(static_cast<std::size_t (boost::asio::io_service::*)()>(
@@ -41,6 +43,7 @@ void TimerBase::run() {
 
 void TimerBase::stop() {
   if (!m_Impl->m_Io.stopped()) {
+    m_Impl->m_Irunned = false;
     m_Impl->m_Io.stop();
   }
 }
@@ -53,8 +56,12 @@ void TimerBase::callOnce() {
   if (!m_Impl->m_Io.stopped()) {
     m_Impl->m_Timer.async_wait(
         [&](const boost::system::error_code &ec) { m_Impl->m_Callback(ec.message()); });
-    m_Impl->m_Io.run();
+    m_Impl->m_Irunned.store(static_cast<bool>(m_Impl->m_Io.run()));
   }
+}
+
+bool TimerBase::isStoped() {
+  return !m_Impl->m_Irunned;
 }
 
 TimerBase::~TimerBase() {
