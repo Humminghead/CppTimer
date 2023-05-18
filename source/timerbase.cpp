@@ -57,6 +57,10 @@ void TimerBase::callOnce() {
   }
 }
 
+bool TimerBase::isStoped() {
+  return m_Impl->m_Io.stopped();
+}
+
 TimerBase::~TimerBase() {
   stop();
   m_Impl->m_Io.reset();
